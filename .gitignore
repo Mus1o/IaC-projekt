@@ -1,0 +1,8 @@
+# Terraform: nedladdade providers och state ska inte in i Git
+.terraform/
+*.tfstate
+*.tfstate.backup
+*.tfplan
+
+# Det som Terraform och skripten skapar när man kör kedjan
+projekt/
