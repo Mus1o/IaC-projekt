@@ -1,6 +1,7 @@
 # Slutprojekt – Terraform och PowerShell
 
 **Kurs:** Infrastruktur konfigurering och deployment med programmering (ITINF25)
+
 **GitHub:** https://github.com/Mus1o/IaC-projekt
 
 ## 1. Mål
@@ -67,7 +68,7 @@ cd ..
 .\verify.ps1
 ```
 
-Ta bort det Terraform har skapat (`config.json` och `deploy.log`):
+Ta bort det Terraform har skapat:
 
 ```powershell
 cd terraform
@@ -75,7 +76,7 @@ terraform destroy
 cd ..
 ```
 
-Mapparna `Data` och `Backup` skapades av PowerShell, så de tas inte bort av Terraform. Ta bort hela resultatet med:
+`destroy` tar bara bort filer som Terraform fortfarande har i sin state. `config.json` tas bort. `deploy.log` ligger kvar om `deploy.ps1` har skrivit i den, eftersom Terraform då ser att innehållet har ändrats och släpper filen ur sin state. Mapparna `Data` och `Backup` skapades av PowerShell, så de tas inte heller bort av Terraform. Ta bort hela resultatet med:
 
 ```powershell
 Remove-Item -Recurse -Force .\projekt
