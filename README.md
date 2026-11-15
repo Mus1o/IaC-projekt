@@ -1,7 +1,7 @@
 # Slutprojekt – Terraform och PowerShell
 
 **Kurs:** Infrastruktur konfigurering och deployment med programmering (ITINF25)
-**GitHub:** <!-- TODO: klistra in länken till ditt repo här -->
+**GitHub:** https://github.com/Mus1o/IaC-projekt
 
 ## 1. Mål
 
@@ -38,7 +38,15 @@ Terraform och PowerShell hänger ihop genom `config.json`.
 
 ## 5. Så kör du
 
-Stå i projektmappen och kör:
+Stå i projektmappen och kör.
+
+Windows blockerar `.ps1`-skript som standard. Tillåt dem först, bara för det här PowerShell-fönstret:
+
+```powershell
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+```
+
+Kör sedan kedjan:
 
 ```powershell
 cd terraform
@@ -49,17 +57,28 @@ cd ..
 .\verify.ps1
 ```
 
-Vill du ha prod i stället för dev:
+Vill du ha prod i stället för dev (kör deploy och verify igen efteråt):
 
 ```powershell
+cd terraform
 terraform apply -var "environment=prod"
+cd ..
+.\deploy.ps1
+.\verify.ps1
 ```
 
-Ta bort allt igen:
+Ta bort det Terraform har skapat (`config.json` och `deploy.log`):
 
 ```powershell
 cd terraform
 terraform destroy
+cd ..
+```
+
+Mapparna `Data` och `Backup` skapades av PowerShell, så de tas inte bort av Terraform. Ta bort hela resultatet med:
+
+```powershell
+Remove-Item -Recurse -Force .\projekt
 ```
 
 ## 6. Verifiering
@@ -68,8 +87,10 @@ terraform destroy
 
 ## 7. Reflektion
 
-<!-- TODO: skriv detta själv, med egna ord -->
-
 **Vad gick bra?**
 
+Jag tyckte att Terraform var lättare än jag trodde. Det var bra att `terraform plan` visade exakt vad som skulle skapas innan något hände, så jag kunde kontrollera att det stämde.
+
 **Vad var svårt?**
+
+Det var svårt att förstå varför try/catch inte fångade fel ibland. Jag lärde mig att man måste skriva `-ErrorAction Stop`, annars hoppar PowerShell inte till catch.
